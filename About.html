@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <section id="home">
+        <h2>Home</h2>
+        <p>Welcome to the home page.</p>
+    </section>
+
+    <section id="about">
+        <h2>About</h2>
+        <p>Learn more about us.</p>
+    </section>
+
+    <section id="contact">
+        <h2>Contact</h2>
+        <p>Get in touch.</p>
+    </section>
+
+    <script>
+        // 获取导航栏链接和页面元素
+        const navLinks = document.querySelectorAll('nav a');
+        const sections = document.querySelectorAll('section');
+
+        // 遍历所有导航栏链接，为每个链接添加单击事件
+        navLinks.forEach(link => {
+            link.addEventListener('click', (event) => {
+                // 取消默认链接行为
+                event.preventDefault();
+
+                // 获取链接的 href 属性
+                const href = link.getAttribute('href');
+
+                // 使用 pushState() 方法更新 URL
+                history.pushState(null, null, href);
+
+                // 遍历所有页面元素，显示对应的元素并隐藏其他元素
+                sections.forEach(section => {
+                    if (section.getAttribute('id') === href.substring(1)) {
+                        console.log(href.substring(1));//substring把#号给截掉
+                        section.style.display = 'block';
+                    } else {
+                        section.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // 监听 popstate 事件，以便在浏览器的前进和后退按钮被点击时更新内容
+        window.addEventListener('popstate', () => {
+            // 获取当前 URL 的 hash 值
+            const currentHash = window.location.hash;
+
+            // 遍历所有页面元素，显示对应的元素并隐藏其他元素
+            sections.forEach(section => {
+                if (section.getAttribute('id') === currentHash.substring(1)) {
+                    section.style.display = 'block';
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
